@@ -1,6 +1,17 @@
 version: '3.8'
 
 services:
+  kotlin-restful-api:
+    container_name: kotlin-restful-api
+    image: kotlin-restful-api:0.0.1
+    ports:
+      - "8080:8080"
+    environment:
+      DATABASE_USERNAME: kotlin
+      DATABASE_PASSWORD: kotlin
+      DATABASE_URL: jdbc:mysql://mysql_container:3306/restful-api
+    networks:
+      - mysql_network
   kotlin-restful-api-mysql:
     image: mysql:latest
     container_name: mysql_container
