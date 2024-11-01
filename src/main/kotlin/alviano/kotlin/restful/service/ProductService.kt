@@ -1,6 +1,7 @@
 package alviano.kotlin.restful.service
 
 import alviano.kotlin.restful.model.CreateProductRequest
+import alviano.kotlin.restful.model.ListProductRequest
 import alviano.kotlin.restful.model.ProductResponse
 import alviano.kotlin.restful.model.UpdateProductRequest
 
@@ -13,4 +14,6 @@ interface ProductService {
     fun update(id: String, updateProductRequest: UpdateProductRequest): ProductResponse
 
     fun delete(id: String)
+
+    fun list(listProductRequest: ListProductRequest): List<ProductResponse>
 }
