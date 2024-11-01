@@ -5,18 +5,25 @@ import alviano.kotlin.restful.model.CreateProductRequest
 import alviano.kotlin.restful.model.ProductResponse
 import alviano.kotlin.restful.repository.ProductRepository
 import alviano.kotlin.restful.service.ProductService
+import alviano.kotlin.restful.validation.ValidationUtil
 import org.springframework.stereotype.Service
 import java.util.*
 
 @Service
-class ProductServiceImpl(val productRepository: ProductRepository) : ProductService {
+class ProductServiceImpl(
+    val productRepository: ProductRepository,
+    val validationUtil: ValidationUtil
+) : ProductService {
+
     override fun create(createProductRequest: CreateProductRequest): ProductResponse {
 
+        validationUtil.validate(createProductRequest)
+
         val product = Product(
-            id = createProductRequest.id,
-            name = createProductRequest.name,
-            price = createProductRequest.price,
-            quantity = createProductRequest.quantity,
+            id = createProductRequest.id!!,
+            name = createProductRequest.name!!,
+            price = createProductRequest.price!!,
+            quantity = createProductRequest.quantity!!,
             createdAt = Date(),
             updatedAt = null
         )
