@@ -4,6 +4,7 @@ import alviano.kotlin.restful.entity.Product
 import alviano.kotlin.restful.error.NotFoundException
 import alviano.kotlin.restful.model.CreateProductRequest
 import alviano.kotlin.restful.model.ProductResponse
+import alviano.kotlin.restful.model.UpdateProductRequest
 import alviano.kotlin.restful.repository.ProductRepository
 import alviano.kotlin.restful.service.ProductService
 import alviano.kotlin.restful.validation.ValidationUtil
@@ -44,6 +45,27 @@ class ProductServiceImpl(
         } else {
             return convertProductToProductResponse(product)
         }
+    }
+
+    override fun update(id: String, updateProductRequest: UpdateProductRequest): ProductResponse {
+        val product = productRepository.findByIdOrNull(id)
+
+        if (product == null) {
+            throw NotFoundException()
+        }
+
+        validationUtil.validate(updateProductRequest)
+
+        product.apply {
+            name = updateProductRequest.name!!
+            price = updateProductRequest.price!!
+            quantity = updateProductRequest.quantity!!
+            updatedAt = Date()
+        }
+
+        productRepository.save(product)
+
+        return convertProductToProductResponse(product)
     }
 
     private fun convertProductToProductResponse(product: Product): ProductResponse {
